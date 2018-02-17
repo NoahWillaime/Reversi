@@ -6,9 +6,10 @@ import java.util.Arrays;
 
 public class Test {
     public static void main(String[] args){
-        EtatReversi jeu = new EtatReversi(new JoueurReversi(EtatReversi.NOIR), 8);
+      EtatReversi jeu = new EtatReversi(new JoueurReversi(EtatReversi.NOIR), 8);
         System.out.println(jeu.toString());
         jeu.successeurs();
+
       /*  ArrayList<Point> points = new ArrayList<Point>();
         points.add(new Point(10, 10));
         points.add(new Point(11, 11));

@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Contour {
+public class Contour implements Iterable<Point> {
         private ArrayList<Point> enveloppe;
 
         public Contour(int taille) {
@@ -24,9 +24,16 @@ public class Contour {
         }
 
         public Contour(Contour c) {
-            Iterator i = c.getEnveloppe();
+            /*Iterator i = c.getEnveloppe();
+            int j = 0;
             while (i.hasNext()) {
+                System.out.println(j);
                 enveloppe.add((Point)i.next());
+                j++;
+            }*/
+            this.enveloppe = new ArrayList<Point>();
+            for (Point p : c){
+                enveloppe.add(p);
             }
         }
 
@@ -47,4 +54,9 @@ public class Contour {
         public Iterator getEnveloppe() {
             return enveloppe.iterator();
         }
+
+    @Override
+    public Iterator<Point> iterator() {
+        return enveloppe.iterator();
+    }
 }

@@ -23,6 +23,13 @@ public class Contour {
             enveloppe.add(new Point(taille/2, taille/2-2));
         }
 
+        public Contour(Contour c) {
+            Iterator i = c.getEnveloppe();
+            while (i.hasNext()) {
+                enveloppe.add((Point)i.next());
+            }
+        }
+
         public void addPoint(Point ... points) {
             for (Point p : points) {
                 if (!enveloppe.contains(p)) {

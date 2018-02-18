@@ -32,22 +32,8 @@ public class EtatReversi extends Etat{
     }
 
     public Iterator<EtatReversi> successeurs(){
-    /*    if (joueur.getCouleur() == BLANC)
-            return successeursBlanc();*/
-        algoSuccesseur();
-        return null;//successeursNoir();
+        return algoSuccesseur().iterator();
     }
-
-    private Iterator<EtatReversi> successeursBlanc(){
-        ArrayList<EtatReversi> sBlanc = new ArrayList<EtatReversi>();
-        return sBlanc.iterator();
-    }
-
-    private Iterator<EtatReversi> successeursNoir() {
-        ArrayList<EtatReversi> sNoir = new ArrayList<EtatReversi>();
-        return sNoir.iterator();
-    }
-
     private EtatReversi successeurNord(int x, int y, int oppose){
         int tmp = y;
         while (plateau[tmp][x] == oppose && tmp < getTaille()){
@@ -325,35 +311,48 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private void algoSuccesseur(){
+    private ArrayList<EtatReversi> algoSuccesseur(){
+        ArrayList<EtatReversi> succ = new ArrayList<>();
+        EtatReversi er;
         int oppose = joueur.getOppose();
         for (Point p : contour){
+            er = null;
             //Si une case couleur opposé autour de la case vide
             if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
-                System.out.println(successeurNord(p.x, p.y+1, oppose).toString());
-            }
-            if (plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
-
-            }
-            if (plateau[p.y][p.x+1] == oppose){//Droite
-                System.out.println(successeurEst(p.x+1, p.y, oppose).toString());
-            }
-            if (plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
-
-            }
-            if (plateau[p.y-1][p.x] == oppose){//BAS
-                System.out.println(successeurSud(p.x, p.y-1, oppose).toString());
-            }
-            if (plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
-
-            }
-            if (plateau[p.y][p.x-1] == oppose){//Gauche
-                System.out.println(successeurOuest(p.x-1, p.y, oppose).toString());
-            }
-            if (plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
-
+                er = successeurNord(p.x, p.y+1, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
+                er = successeurNordEst(p.x+1, p.y+1, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y][p.x+1] == oppose){//Droite
+                er = successeurEst(p.x+1, p.y, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
+                er = successeurSudEst(p.x+1, p.y-1, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y-1][p.x] == oppose){//BAS
+                er = successeurSud(p.x, p.y-1, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
+                er = successeurSudOuest(p.x-1, p.y-1, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y][p.x-1] == oppose){//Gauche
+                er = successeurOuest(p.x-1, p.y, oppose);
+                if (er != null)
+                    succ.add(er);
+            } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
+                er = successeurNordOuest(p.x-1, p.y+1, oppose);
+                if (er != null)
+                    succ.add(er);
             }
         }
+        return succ;
     }
 
     public boolean equals(EtatReversi etat) {

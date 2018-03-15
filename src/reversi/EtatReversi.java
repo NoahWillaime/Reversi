@@ -31,9 +31,14 @@ public class EtatReversi extends Etat{
         this.contour = contour;
     }
 
-    public Iterator<EtatReversi> successeurs(){
-        return algoSuccesseur().iterator();
+    public Iterator<EtatReversi> successeursIA(){
+        return algoSuccesseurIA().iterator();
     }
+
+    public EtatReversi successeurHumain(Point p) {
+        return algoSuccesseurHumain(p);
+    }
+
     private EtatReversi successeurNord(int x, int y, int oppose){
         int tmp = y;
         while (plateau[tmp][x] == oppose && tmp < getTaille()){
@@ -311,7 +316,7 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private ArrayList<EtatReversi> algoSuccesseur(){
+    private ArrayList<EtatReversi> algoSuccesseurIA(){
         ArrayList<EtatReversi> succ = new ArrayList<>();
         EtatReversi er;
         int oppose = joueur.getOppose();
@@ -353,6 +358,30 @@ public class EtatReversi extends Etat{
             }
         }
         return succ;
+    }
+
+    private EtatReversi algoSuccesseurHumain(Point p) {
+        EtatReversi er = null;
+        int oppose = joueur.getOppose();
+        //Si une case couleur opposé autour de la case vide
+        if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
+            er = successeurNord(p.x, p.y+1, oppose);
+        } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
+            er = successeurNordEst(p.x+1, p.y+1, oppose);
+        } else if (plateau[p.y][p.x+1] == oppose){//Droite
+            er = successeurEst(p.x+1, p.y, oppose);
+        } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
+            er = successeurSudEst(p.x+1, p.y-1, oppose);
+        } else if (plateau[p.y-1][p.x] == oppose){//BAS
+            er = successeurSud(p.x, p.y-1, oppose);
+        } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
+            er = successeurSudOuest(p.x-1, p.y-1, oppose);
+        } else if (plateau[p.y][p.x-1] == oppose){//Gauche
+            er = successeurOuest(p.x-1, p.y, oppose);
+        } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
+            er = successeurNordOuest(p.x-1, p.y+1, oppose);
+        }
+        return er;
     }
 
     public boolean equals(EtatReversi etat) {

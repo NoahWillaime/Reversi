@@ -5,7 +5,9 @@ import java.util.Observer;
 
 public class VuePlateau implements Observer {
 
-    public VuePlateau() {
+    public VuePlateau(Observable o) {
+        super();
+        o.addObserver(this);
     }
 
     @Override

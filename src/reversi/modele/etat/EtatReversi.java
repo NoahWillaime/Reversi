@@ -325,6 +325,49 @@ public class EtatReversi extends Etat{
         }
         return null;
     }
+
+    private ArrayList<Point> getPlayable(){
+        ArrayList<Point> playable = new ArrayList<>();
+        EtatReversi er;
+        int oppose = joueur.getOppose();
+        for (Point p : contour){
+            er = null;
+            //Si une case couleur opposé autour de la case vide
+            if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
+
+            } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
+                er = successeurNordEst(p.x+1, p.y+1, joueur);
+                if (er != null)
+                    playable.add(p);
+            } else if (plateau[p.y][p.x+1] == oppose){//Droite
+                er = successeurEst(p.x+1, p.y, joueur);
+                if (er != null)
+                    playable.add(p);
+            } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
+                er = successeurSudEst(p.x+1, p.y-1, joueur);
+                if (er != null)
+                    playable.add(p);
+            } else if (plateau[p.y-1][p.x] == oppose){//BAS
+                er = successeurSud(p.x, p.y-1, joueur);
+                if (er != null)
+                    playable.add(p);
+            } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
+                er = successeurSudOuest(p.x-1, p.y-1, joueur);
+                if (er != null)
+                    playable.add(p);
+            } else if (plateau[p.y][p.x-1] == oppose){//Gauche
+                er = successeurOuest(p.x-1, p.y, joueur);
+                if (er != null)
+                    playable.add(p);
+            } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
+                er = successeurNordOuest(p.x-1, p.y+1, joueur);
+                if (er != null)
+                    playable.add(p);
+            }
+        }
+        return playable;
+    }
+
 /*
     private ArrayList<EtatReversi> algoSuccesseurIA(){
         ArrayList<EtatReversi> succ = new ArrayList<>();

@@ -1,6 +1,6 @@
-package reversi.Etat;
+package reversi.modele.etat;
 
-import reversi.Joueur.JoueurReversi;
+import reversi.modele.joueur.JoueurReversi;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package reversi.Etat;
+package reversi.modele.etat;
 
 import java.awt.*;
 import java.util.ArrayList;

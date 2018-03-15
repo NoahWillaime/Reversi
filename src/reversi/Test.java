@@ -1,7 +1,7 @@
 package reversi;
 
-import reversi.Etat.EtatReversi;
-import reversi.Joueur.JoueurReversi;
+import reversi.modele.etat.EtatReversi;
+import reversi.modele.joueur.JoueurReversi;
 
 public class Test {
     public static void main(String[] args){

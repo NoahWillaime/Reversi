@@ -5,6 +5,8 @@ import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 
 public class Modele extends Observable {
@@ -36,6 +38,17 @@ public class Modele extends Observable {
 
     public int getTaille_plateau() {
         return taille_plateau;
+    }
+
+    public Iterator<Point> getPlayable() {
+        return etat.getPlayable(getAdversaire());
+    }
+
+    public JoueurReversi getAdversaire(){
+        if (etat.getJoueur().equals(player1)){
+            return player2;
+        }
+        return player1;
     }
 
 }

@@ -2,6 +2,7 @@ package reversi.modele.etat;
 
 import reversi.modele.joueur.JoueurReversi;
 
+import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -326,7 +327,7 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private ArrayList<Point> getPlayable(){
+    public Iterator<Point> getPlayable(JoueurReversi joueur){
         ArrayList<Point> playable = new ArrayList<>();
         EtatReversi er;
         int oppose = joueur.getOppose();
@@ -334,7 +335,9 @@ public class EtatReversi extends Etat{
             er = null;
             //Si une case couleur opposé autour de la case vide
             if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
-
+                er = successeurNord(p.x, p.y+1, joueur);
+                if (er != null)
+                    playable.add(p);
             } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
                 er = successeurNordEst(p.x+1, p.y+1, joueur);
                 if (er != null)
@@ -365,7 +368,8 @@ public class EtatReversi extends Etat{
                     playable.add(p);
             }
         }
-        return playable;
+        System.out.println(playable.size());
+        return playable.iterator();
     }
 
 /*

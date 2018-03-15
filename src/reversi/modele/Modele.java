@@ -18,7 +18,7 @@ public class Modele extends Observable {
 
         player1 = new JoueurReversi(EtatReversi.NOIR);
         player2 = new JoueurReversi(EtatReversi.BLANC);
-        EtatReversi etat = new EtatReversi(player1, taille_plateau);
+        etat = new EtatReversi(player1, taille_plateau);
     }
 
     public void joueurAction(Point p){

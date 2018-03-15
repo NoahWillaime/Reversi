@@ -33,16 +33,17 @@ public class EtatReversi extends Etat{
         this.contour = contour;
     }
 
-    public Iterator<EtatReversi> successeursIA(){
+  /*  public Iterator<EtatReversi> successeursIA(){
         return algoSuccesseurIA().iterator();
     }
-
-    public EtatReversi successeurHumain(Point p) {
-        return algoSuccesseurHumain(p);
+*/
+    public EtatReversi successeurHumain(Point p, JoueurReversi adversaire) {
+        return algoSuccesseurHumain(p, adversaire);
     }
 
-    private EtatReversi successeurNord(int x, int y, int oppose){
+    private EtatReversi successeurNord(int x, int y, JoueurReversi adversaire){
         int tmp = y;
+        int oppose = adversaire.getCouleur();
         while (plateau[tmp][x] == oppose && tmp < getTaille()){
             tmp++;
         }
@@ -71,8 +72,9 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurSud(int x, int y, int oppose){
+    private EtatReversi successeurSud(int x, int y, JoueurReversi adversaire){
         int tmp = y;
+        int oppose = adversaire.getCouleur();
         while (plateau[tmp][x] == oppose && tmp >= 0 ){
             tmp--;
         }
@@ -101,8 +103,9 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurEst(int x, int y, int oppose){
+    private EtatReversi successeurEst(int x, int y, JoueurReversi adversaire){
         int tmp = x;
+        int oppose = adversaire.getCouleur();
         while (plateau[y][tmp] == oppose && tmp < getTaille()){
             tmp++;
         }
@@ -132,8 +135,9 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurOuest(int x, int y, int oppose){
+    private EtatReversi successeurOuest(int x, int y, JoueurReversi adversaire){
         int tmp = x;
+        int oppose = adversaire.getCouleur();
         while (plateau[y][tmp] == oppose && tmp >= 0){
             tmp--;
         }
@@ -162,9 +166,10 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurNordEst(int x, int y, int oppose){
+    private EtatReversi successeurNordEst(int x, int y, JoueurReversi adversaire){
         int tmp_x = x;
         int tmp_y = y;
+        int oppose = adversaire.getCouleur();
         while (plateau[tmp_y][tmp_x] == oppose && tmp_x < getTaille() && tmp_y < getTaille()){
             tmp_x++;
             tmp_y++;
@@ -201,9 +206,10 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurSudEst(int x, int y, int oppose){
+    private EtatReversi successeurSudEst(int x, int y, JoueurReversi adversaire){
         int tmp_x = x;
         int tmp_y = y;
+        int oppose = adversaire.getCouleur();
         while (plateau[tmp_y][tmp_x] == oppose && tmp_x < getTaille() && tmp_y >=0){
             tmp_x++;
             tmp_y--;
@@ -240,9 +246,10 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurNordOuest(int x, int y, int oppose){
+    private EtatReversi successeurNordOuest(int x, int y, JoueurReversi adversaire){
         int tmp_x = x;
         int tmp_y = y;
+        int oppose = adversaire.getCouleur();
         while (plateau[tmp_y][tmp_x] == oppose && tmp_x >= 0 && tmp_y < getTaille()){
             tmp_x--;
             tmp_y++;
@@ -279,9 +286,10 @@ public class EtatReversi extends Etat{
         return null;
     }
 
-    private EtatReversi successeurSudOuest(int x, int y, int oppose){
+    private EtatReversi successeurSudOuest(int x, int y, JoueurReversi adversaire){
         int tmp_x = x;
         int tmp_y = y;
+        int oppose = adversaire.getCouleur();
         while (plateau[tmp_y][tmp_x] == oppose && tmp_x >= 0 && tmp_y >= 0){
             tmp_x--;
             tmp_y--;
@@ -317,7 +325,7 @@ public class EtatReversi extends Etat{
         }
         return null;
     }
-
+/*
     private ArrayList<EtatReversi> algoSuccesseurIA(){
         ArrayList<EtatReversi> succ = new ArrayList<>();
         EtatReversi er;
@@ -361,27 +369,27 @@ public class EtatReversi extends Etat{
         }
         return succ;
     }
-
-    private EtatReversi algoSuccesseurHumain(Point p) {
+*/
+    private EtatReversi algoSuccesseurHumain(Point p, JoueurReversi adversaire) {
         EtatReversi er = null;
-        int oppose = joueur.getOppose();
+        int oppose = adversaire.getCouleur();
         //Si une case couleur opposé autour de la case vide
         if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
-            er = successeurNord(p.x, p.y+1, oppose);
+            er = successeurNord(p.x, p.y+1, adversaire);
         } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
-            er = successeurNordEst(p.x+1, p.y+1, oppose);
+            er = successeurNordEst(p.x+1, p.y+1, adversaire);
         } else if (plateau[p.y][p.x+1] == oppose){//Droite
-            er = successeurEst(p.x+1, p.y, oppose);
+            er = successeurEst(p.x+1, p.y, adversaire);
         } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
-            er = successeurSudEst(p.x+1, p.y-1, oppose);
+            er = successeurSudEst(p.x+1, p.y-1, adversaire);
         } else if (plateau[p.y-1][p.x] == oppose){//BAS
-            er = successeurSud(p.x, p.y-1, oppose);
+            er = successeurSud(p.x, p.y-1, adversaire);
         } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
-            er = successeurSudOuest(p.x-1, p.y-1, oppose);
+            er = successeurSudOuest(p.x-1, p.y-1, adversaire);
         } else if (plateau[p.y][p.x-1] == oppose){//Gauche
-            er = successeurOuest(p.x-1, p.y, oppose);
+            er = successeurOuest(p.x-1, p.y,  adversaire);
         } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
-            er = successeurNordOuest(p.x-1, p.y+1, oppose);
+            er = successeurNordOuest(p.x-1, p.y+1, adversaire);
         }
         return er;
     }

@@ -1,17 +1,16 @@
 package reversi.modele;
 
-import reversi.modele.jeu.Jeu;
+import reversi.modele.etat.EtatReversi;
+import reversi.modele.joueur.JoueurReversi;
 
 import java.util.Observable;
 
 public class Modele extends Observable {
-    private Jeu jeu_reversi;
+    private JoueurReversi player1;
+    private JoueurReversi player2;
+    private EtatReversi etat;
 
-    public Modele(Jeu jeu_reversi) {
-        this.jeu_reversi = jeu_reversi;
+    public Modele() {
     }
 
-    public Jeu getJeu() {
-        return jeu_reversi;
-    }
 }

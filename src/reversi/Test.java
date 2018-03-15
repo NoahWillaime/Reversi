@@ -1,8 +1,7 @@
 package reversi;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import reversi.Etat.EtatReversi;
+import reversi.Joueur.JoueurReversi;
 
 public class Test {
     public static void main(String[] args){

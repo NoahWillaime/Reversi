@@ -1,10 +1,13 @@
 package reversi;
 
+import reversi.Etat.EtatReversi;
+import reversi.Joueur.JoueurReversi;
+
 public class Test {
     public static void main(String[] args){
       EtatReversi jeu = new EtatReversi(new JoueurReversi(EtatReversi.NOIR), 8);
         System.out.println(jeu.toString());
-        jeu.successeursIA();
+        jeu.successeurs();
 
       /*  ArrayList<Point> points = new ArrayList<Point>();
         points.add(new Point(10, 10));

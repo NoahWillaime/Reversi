@@ -1,4 +1,4 @@
-package reversi;
+package reversi.Joueur;
 
 public abstract class Joueur {
 }

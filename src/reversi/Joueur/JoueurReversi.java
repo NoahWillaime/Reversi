@@ -1,4 +1,6 @@
-package reversi;
+package reversi.Joueur;
+
+import reversi.Etat.EtatReversi;
 
 public class JoueurReversi extends Joueur {
     private int couleur; // BLANC OU NOIR

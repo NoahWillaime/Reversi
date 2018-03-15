@@ -1,4 +1,4 @@
-package reversi;
+package reversi.Etat;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,10 +42,6 @@ public class Contour implements Iterable<Point> {
             for (Point p : points) {
                 enveloppe.remove(p);
             }
-        }
-
-        public Iterator getEnveloppe() {
-            return enveloppe.iterator();
         }
 
     @Override

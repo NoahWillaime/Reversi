@@ -67,7 +67,7 @@ public class EtatReversi extends Etat{
                 if (x + 1 < getTaille())
                     new_contour.addPoint(new Point(x + 1, tmp - 1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -98,7 +98,7 @@ public class EtatReversi extends Etat{
                 if (x + 1 < getTaille())
                     new_contour.addPoint(new Point(x + 1, tmp + 1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -130,7 +130,7 @@ public class EtatReversi extends Etat{
                 if (y + 1 < getTaille())
                     new_contour.addPoint(new Point(tmp - 1, y + 1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -161,7 +161,7 @@ public class EtatReversi extends Etat{
                 if (y + 1 < getTaille())
                     new_contour.addPoint(new Point(tmp + 1, y + 1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -201,7 +201,7 @@ public class EtatReversi extends Etat{
                 if (tmp_y+1 < getTaille())
                     new_contour.addPoint(new Point(tmp_x+1, tmp_y+1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -241,7 +241,7 @@ public class EtatReversi extends Etat{
                 if (tmp_y+1 < getTaille())
                     new_contour.addPoint(new Point(tmp_x+1, tmp_y-1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -281,8 +281,8 @@ public class EtatReversi extends Etat{
                 if (tmp_y+1 < getTaille())
                     new_contour.addPoint(new Point(tmp_x-1, tmp_y+1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
-        }
+            return new EtatReversi(adversaire, new_plateau, new_contour);
+    }
         return null;
     }
 
@@ -321,7 +321,7 @@ public class EtatReversi extends Etat{
                 if (tmp_y-1 >= 0)
                     new_contour.addPoint(new Point(tmp_x-1, tmp_y-1));
             }
-            return new EtatReversi(joueur, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour);
         }
         return null;
     }
@@ -428,4 +428,7 @@ public class EtatReversi extends Etat{
         return plateau.length;
     }
 
+    public JoueurReversi getJoueur() {
+        return joueur;
+    }
 }

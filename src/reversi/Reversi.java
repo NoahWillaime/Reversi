@@ -10,7 +10,7 @@ public class Reversi extends JFrame{
 
     public Reversi() {
         super("Reversi");
-        Modele m = new Modele();
+        Modele m = new Modele(8);
         VuePlateau vp = new VuePlateau(m);
         add(vp, BorderLayout.CENTER);
         setPreferredSize(new Dimension(800, 800));

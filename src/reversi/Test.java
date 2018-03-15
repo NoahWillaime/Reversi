@@ -1,11 +1,5 @@
 package reversi;
 
-import reversi.modele.Modele;
-import reversi.modele.etat.EtatReversi;
-import reversi.modele.jeu.Jeu;
-import reversi.modele.jeu.Plateau;
-import reversi.modele.joueur.JoueurReversi;
-
 public class Test {
     public static void main(String[] args){
     /*  EtatReversi jeu = new EtatReversi(new JoueurReversi(EtatReversi.NOIR), 8);

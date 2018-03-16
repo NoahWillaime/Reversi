@@ -16,9 +16,9 @@ public class VuePlateau extends JPanel implements Observer {
     public VuePlateau(Observable o) {
         super();
         m = (Modele)o;
-        cases = new ArrayList<>(m.getTaille_plateau() * m.getTaille_plateau());
+        cases = new ArrayList<>(m.getTaillePlateau() * m.getTaillePlateau());
         o.addObserver(this);
-        for (int i = 0; i < m.getTaille_plateau() * m.getTaille_plateau(); i++) {
+        for (int i = 0; i < m.getTaillePlateau() * m.getTaillePlateau(); i++) {
             JButton button = new JButton();
             button.addActionListener(e -> {
 
@@ -26,7 +26,7 @@ public class VuePlateau extends JPanel implements Observer {
             cases.add(button);
             add(button);
         }
-        setLayout(new GridLayout(m.getTaille_plateau(), m.getTaille_plateau()));
+        setLayout(new GridLayout(m.getTaillePlateau(), m.getTaillePlateau()));
         int count = 0;
         for (int line[] : m.getPlateau()) {
             for (int c : line) {
@@ -38,7 +38,7 @@ public class VuePlateau extends JPanel implements Observer {
         Iterator<Point> i = m.getPlayable();
         while (i.hasNext()) {
             Point p = i.next();
-            cases.get(m.getTaille_plateau() * p.y + p.x).setBackground(Color.GREEN);
+            cases.get(m.getTaillePlateau() * p.y + p.x).setBackground(Color.GREEN);
         }
     }
 

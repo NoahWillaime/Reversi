@@ -36,12 +36,12 @@ public class Modele extends Observable {
         return etat.getPlateau();
     }
 
-    public int getTaille_plateau() {
+    public int getTaillePlateau() {
         return taille_plateau;
     }
 
     public Iterator<Point> getPlayable() {
-        return etat.getPlayable(getAdversaire());
+        return etat.getPlayable();
     }
 
     public JoueurReversi getAdversaire(){

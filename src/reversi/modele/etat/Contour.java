@@ -44,6 +44,14 @@ public class Contour implements Iterable<Point> {
             }
         }
 
+        public boolean isPointInside(Point p){
+            return enveloppe.contains(p);
+        }
+
+        public int getTaille(){
+            return enveloppe.size();
+        }
+
     @Override
     public Iterator<Point> iterator() {
         return enveloppe.iterator();

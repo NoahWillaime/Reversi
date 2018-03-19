@@ -12,6 +12,7 @@ public class EtatReversi extends Etat{
     private JoueurReversi joueur;
     private int[][] plateau;
     private Contour contour;
+    private ArrayList<Point> CasePlayable;
     public static int VIDE = 0;
     public static int BLANC = 1;
     public static int NOIR = 2;
@@ -20,18 +21,22 @@ public class EtatReversi extends Etat{
         super();
         this.joueur = player;
         this.plateau = new int[taille][taille];
+        this.CasePlayable = new ArrayList<>();
         plateau[taille/2-1][taille/2-1] = BLANC;
         plateau[taille/2][taille/2-1] = NOIR;
         plateau[taille/2][taille/2] = BLANC;
         plateau[taille/2-1][taille/2] = NOIR;
         this.contour = new Contour(8);
+        CasePlayable = getPlayable();
     }
 
     public EtatReversi(JoueurReversi player, int[][] plateau, Contour contour){
         super();
+        this.CasePlayable = new ArrayList<>();
         this.joueur = player;
         this.plateau = plateau;
         this.contour = contour;
+        CasePlayable = getPlayable();
     }
 
   /*  public Iterator<EtatReversi> successeursIA(){
@@ -46,7 +51,7 @@ public class EtatReversi extends Etat{
         int tmpX = x;
         int tmpY = y;
         int opppose = adversaire.getCouleur();
-        while (plateau[y][x] == opppose){// && (y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())){
+        while (plateau[y][x] == opppose && (y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())){
             y += incrY;
             x += incrX;
         }
@@ -85,47 +90,50 @@ public class EtatReversi extends Etat{
 
     public boolean isPlayable(int x, int y, int incrX, int incrY){
         int opppose = joueur.getOppose();
-        while (plateau[y][x] == opppose && (y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())){
+        while ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())
+                && plateau[y][x] == opppose){
             y += incrY;
             x += incrX;
         }
-        if (plateau[y][x] == joueur.getCouleur())
+        if ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())
+                && plateau[y][x] == joueur.getCouleur())
             return true;
         return false;
     }
 
-    public Iterator<Point> getPlayable(){
+    public ArrayList<Point> getPlayable(){
         ArrayList<Point> playable = new ArrayList<>();
         int oppose = joueur.getOppose();
+        System.out.println(contour.getTaille());
         for (Point p : contour){
             //Si une case couleur opposé autour de la case vide
-            if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
+            if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){ //EN HAUT
                 if (isPlayable(p.x, p.y+1, 0, 1))
                     playable.add(p);
-            } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
+            } else if (p.y+1 < getTaille() && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
                 if (isPlayable(p.x+1, p.y+1, 1, 1))
                     playable.add(p);
-            } else if (plateau[p.y][p.x+1] == oppose){//Droite
+            } else if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
                 if (isPlayable(p.x+1, p.y, 1, 0))
                     playable.add(p);
-            } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
+            } else if (p.y-1 >= 0 && p.x+1 <getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
                 if (isPlayable(p.x+1, p.y-1, 1, -1))
                     playable.add(p);
-            } else if (plateau[p.y-1][p.x] == oppose){//BAS
+            } else if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){//BAS
                 if (isPlayable(p.x, p.y-1, 0, -1))
                     playable.add(p);
-            } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
+            } else if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
                 if (isPlayable(p.x-1, p.y-1, -1, -1))
                     playable.add(p);
-            } else if (plateau[p.y][p.x-1] == oppose){//Gauche
+            } else if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose){//Gauche
                 if (isPlayable(p.x-1, p.y, -1, 0))
                     playable.add(p);
-            } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
+            } else if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
                 if (isPlayable(p.x-1, p.y+1, -1, 1))
                     playable.add(p);
             }
         }
-        return playable.iterator();
+        return playable;
     }
 
 /*
@@ -177,21 +185,21 @@ public class EtatReversi extends Etat{
         EtatReversi er = null;
         int oppose = joueur.getOppose();//adversaire.getCouleur();
         //Si une case couleur opposé autour de la case vide
-        if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
+        if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){ //EN HAUT
             er = successeur(p.x, p.y+1, 0, 1, adversaire);
-        } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
+        } else if (p.y+1 < getTaille() && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
            er = successeur(p.x+1, p.y+1, 1, 1, adversaire);
-        } else if (plateau[p.y][p.x+1] == oppose){//Droite
+        } else if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
             er = successeur(p.x+1, p.y, 1, 0, adversaire);
-        } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
+        } else if (p.y-1 >= 0 && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
             er = successeur(p.x+1, p.y-1, 1, -1, adversaire);
-        } else if (plateau[p.y-1][p.x] == oppose){//BAS
+        } else if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){//BAS
             er = successeur(p.x, p.y-1, 0, -1, adversaire);
-        } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
+        } else if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
            er = successeur(p.x-1, p.y-1, -1, -1, adversaire);
-        } else if (plateau[p.y][p.x-1] == oppose){//Gauche
+        } else if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose){//Gauche
             er = successeur(p.x-1, p.y, -1, 0, adversaire);
-        } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
+        } else if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
             er = successeur(p.x-1, p.y+1, -1, 1, adversaire);
         }
         return er;
@@ -223,6 +231,10 @@ public class EtatReversi extends Etat{
         return sb.toString();
     }
 
+    public Iterator<Point> getCasePlayable() {
+        return CasePlayable.iterator();
+    }
+
     public int[][] getPlateau() {
         return plateau;
     }
@@ -238,4 +250,10 @@ public class EtatReversi extends Etat{
     public Contour getContour() {
         return contour;
     }
+
+    public boolean inPlayable(Point p){
+        return CasePlayable.contains(p);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package reversi.modele;
 
+import reversi.modele.etat.Contour;
 import reversi.modele.etat.Etat;
 import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
@@ -24,12 +25,14 @@ public class Modele extends Observable {
     }
 
     public void joueurAction(Point p){
-        if (etat.getJoueur().equals(player1))
-            etat = etat.successeurHumain(p, player2);
-        else
-            etat = etat.successeurHumain(p, player1);
-        setChanged();
-        notifyObservers();
+        if (etat.inPlayable(p)) {
+            if (etat.getJoueur().equals(player1))
+                etat = etat.successeurHumain(p, player2);
+            else
+                etat = etat.successeurHumain(p, player1);
+            setChanged();
+            notifyObservers();
+        }
     }
 
     public int[][] getPlateau(){
@@ -41,7 +44,11 @@ public class Modele extends Observable {
     }
 
     public Iterator<Point> getPlayable() {
-        return etat.getPlayable();
+        return etat.getCasePlayable();
+    }
+
+    public Contour getContour(){
+        return etat.getContour();
     }
 
     public JoueurReversi getAdversaire(){

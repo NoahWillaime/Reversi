@@ -24,7 +24,7 @@ public class AlgoMinMax {
         Iterator<EtatReversi> coups = e.successeursIA(m.getAdversaire(e));
         while (coups.hasNext()) {
             EtatReversi c = coups.next();
-            int val = min(e, depth - 1);
+            int val = min(c, depth - 1);
             if (val > max) {
                 max = val;
             }

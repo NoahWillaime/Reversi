@@ -35,10 +35,10 @@ public class Modele extends Observable {
     }
 
     public void iaAction(int depth) {
-        AlgoMinMax algo = new AlgoMinMax();
+        AlgoMinMax algo = new AlgoMinMax(this);
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
-        Iterator<EtatReversi> coups = etat.successeursIA(etat.getJoueur().equals(player1) ? player2 : player1);
+        Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));
         while (coups.hasNext()) {
             EtatReversi c = coups.next();
             int val = algo.min(etat, depth);
@@ -66,8 +66,8 @@ public class Modele extends Observable {
         return etat.getContour();
     }
 
-    public JoueurReversi getAdversaire(){
-        if (etat.getJoueur().equals(player1)){
+    public JoueurReversi getAdversaire(EtatReversi e){
+        if (e.getJoueur().equals(player1)){
             return player2;
         }
         return player1;

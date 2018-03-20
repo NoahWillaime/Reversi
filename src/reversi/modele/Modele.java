@@ -1,12 +1,10 @@
 package reversi.modele;
 
 import reversi.modele.etat.Contour;
-import reversi.modele.etat.Etat;
 import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 
@@ -33,6 +31,10 @@ public class Modele extends Observable {
             setChanged();
             notifyObservers();
         }
+    }
+
+    public void iaAction(EtatReversi e) {
+        int max = Integer.MIN_VALUE;
     }
 
     public int[][] getPlateau(){

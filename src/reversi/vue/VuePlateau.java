@@ -6,9 +6,10 @@ import reversi.modele.etat.EtatReversi;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 public class VuePlateau extends JPanel implements Observer {
     private ArrayList<JButton> cases;

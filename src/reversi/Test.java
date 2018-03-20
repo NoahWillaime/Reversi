@@ -1,11 +1,9 @@
 package reversi;
 
-import reversi.modele.etat.Etat;
 import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class Test {
     public static void main(String[] args){

@@ -39,10 +39,10 @@ public class EtatReversi extends Etat{
         CasePlayable = getPlayable();
     }
 
-  /*  public Iterator<EtatReversi> successeursIA(){
-        return algoSuccesseurIA().iterator();
+    public Iterator<EtatReversi> successeursIA(JoueurReversi adversaire){
+        return algoSuccesseurIA(adversaire).iterator();
     }
-*/
+
     public EtatReversi successeurHumain(Point p, JoueurReversi adversaire) {
         System.out.println("SH: "+p);
         return algoSuccesseurHumain(p, adversaire);
@@ -91,18 +91,11 @@ public class EtatReversi extends Etat{
 
     public boolean isPlayable(int x, int y, int incrX, int incrY){
         int opppose = joueur.getOppose();
-   /*     if (incrX == 0 && incrY == 1) {
-            System.out.println("Origine: " + x + " / " + (y - 1) + " | " + "Bas: " + x + "/" + y);
-            System.out.println("Case : "+plateau[y][x]+" / "+"Opposé : "+opppose);
-            System.out.println((y >= 0 && y < getTaille())+" / "+(x >= 0 && x < getTaille()));
-        }*/
         while ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())
                 && plateau[y][x] == opppose){
-           // System.out.println("while");
             y += incrY;
             x += incrX;
         }
-       // System.out.println("----");
         if ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())
                 && plateau[y][x] == joueur.getCouleur())
             return true;

@@ -26,6 +26,20 @@ public class AlgoMinMax {
     }
 
     public int min(EtatReversi e, int depth) {
-        return 0;
+        if (depth == 0){
+            return eval0(e);
+        }
+        int min = Integer.MAX_VALUE;
+        int val = 0;
+        Iterator<EtatReversi> it = e.successeursIA(m.getAdversaire(e));
+        EtatReversi etat;
+        while (it.hasNext()){
+            etat = it.next();
+            val = max(etat, depth-1);
+            if (val < min){
+                min = val;
+            }
+        }
+        return min;
     }
 }

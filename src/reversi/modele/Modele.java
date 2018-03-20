@@ -1,5 +1,6 @@
 package reversi.modele;
 
+import reversi.modele.algo.AlgoMinMax;
 import reversi.modele.etat.Contour;
 import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
@@ -33,8 +34,20 @@ public class Modele extends Observable {
         }
     }
 
-    public void iaAction(EtatReversi e) {
+    public void iaAction(int depth) {
+        AlgoMinMax algo = new AlgoMinMax();
+        EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
+        Iterator<EtatReversi> coups = etat.successeursIA(etat.getJoueur().equals(player1) ? player2 : player1);
+        while (coups.hasNext()) {
+            EtatReversi c = coups.next();
+            int val = algo.min(etat, depth);
+            if (val > max) {
+                max = val;
+                meilleurCoup = c;
+            }
+        }
+        etat = meilleurCoup;
     }
 
     public int[][] getPlateau(){

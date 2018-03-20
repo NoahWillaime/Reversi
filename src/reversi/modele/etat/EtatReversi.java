@@ -44,6 +44,7 @@ public class EtatReversi extends Etat{
     }
 */
     public EtatReversi successeurHumain(Point p, JoueurReversi adversaire) {
+        System.out.println("SH: "+p);
         return algoSuccesseurHumain(p, adversaire);
     }
 
@@ -90,11 +91,18 @@ public class EtatReversi extends Etat{
 
     public boolean isPlayable(int x, int y, int incrX, int incrY){
         int opppose = joueur.getOppose();
+   /*     if (incrX == 0 && incrY == 1) {
+            System.out.println("Origine: " + x + " / " + (y - 1) + " | " + "Bas: " + x + "/" + y);
+            System.out.println("Case : "+plateau[y][x]+" / "+"Opposé : "+opppose);
+            System.out.println((y >= 0 && y < getTaille())+" / "+(x >= 0 && x < getTaille()));
+        }*/
         while ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())
                 && plateau[y][x] == opppose){
+           // System.out.println("while");
             y += incrY;
             x += incrX;
         }
+       // System.out.println("----");
         if ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())
                 && plateau[y][x] == joueur.getCouleur())
             return true;
@@ -104,103 +112,122 @@ public class EtatReversi extends Etat{
     public ArrayList<Point> getPlayable(){
         ArrayList<Point> playable = new ArrayList<>();
         int oppose = joueur.getOppose();
-        System.out.println(contour.getTaille());
         for (Point p : contour){
             //Si une case couleur opposé autour de la case vide
-            if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){ //EN HAUT
-                if (isPlayable(p.x, p.y+1, 0, 1))
-                    playable.add(p);
-            } else if (p.y+1 < getTaille() && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
-                if (isPlayable(p.x+1, p.y+1, 1, 1))
-                    playable.add(p);
-            } else if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
-                if (isPlayable(p.x+1, p.y, 1, 0))
-                    playable.add(p);
-            } else if (p.y-1 >= 0 && p.x+1 <getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
-                if (isPlayable(p.x+1, p.y-1, 1, -1))
-                    playable.add(p);
-            } else if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){//BAS
+            if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){ //EN HAUT
                 if (isPlayable(p.x, p.y-1, 0, -1))
                     playable.add(p);
-            } else if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
-                if (isPlayable(p.x-1, p.y-1, -1, -1))
+            }
+            if (p.y-1 >= 0 && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
+                if (isPlayable(p.x+1, p.y-1, 1, -1))
                     playable.add(p);
-            } else if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose){//Gauche
+            }
+            if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
+                if (isPlayable(p.x+1, p.y, 1, 0))
+                    playable.add(p);
+            }
+            if (p.y+1 < getTaille() && p.x+1 <getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
+                if (isPlayable(p.x+1, p.y+1, 1, 1))
+                    playable.add(p);
+            }
+            if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){//BAS
+                if (isPlayable(p.x, p.y+1, 0, 1))
+                    playable.add(p);
+            }
+            if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
+                if (isPlayable(p.x-1, p.y+1, -1, 1))
+                    playable.add(p);
+            }
+            if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose){//Gauche
                 if (isPlayable(p.x-1, p.y, -1, 0))
                     playable.add(p);
-            } else if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
-                if (isPlayable(p.x-1, p.y+1, -1, 1))
+            }
+            if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
+                if (isPlayable(p.x-1, p.y-1, -1, -1))
                     playable.add(p);
             }
         }
         return playable;
     }
 
-/*
-    private ArrayList<EtatReversi> algoSuccesseurIA(){
+    private ArrayList<EtatReversi> algoSuccesseurIA(JoueurReversi adversaire){
         ArrayList<EtatReversi> succ = new ArrayList<>();
         EtatReversi er;
         int oppose = joueur.getOppose();
         for (Point p : contour){
             er = null;
             //Si une case couleur opposé autour de la case vide
-            if (plateau[p.y+1][p.x] == oppose){ //EN HAUT
-                er = successeurNord(p.x, p.y+1, oppose);
+            if (p.y-1 < getTaille() && plateau[p.y-1][p.x] == oppose){ //EN HAUT
+                er = successeur(p.x, p.y-1, 0, -1, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
-                er = successeurNordEst(p.x+1, p.y+1, oppose);
+            }
+            if (p.y-1 < getTaille() && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
+                er = successeur(p.x+1, p.y-1, 1, -1, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y][p.x+1] == oppose){//Droite
-                er = successeurEst(p.x+1, p.y, oppose);
+            }
+            if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
+                er = successeur(p.x+1, p.y, 1, 0, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
-                er = successeurSudEst(p.x+1, p.y-1, oppose);
+            }
+            if (p.y+1 >= 0 && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
+                er = successeur(p.x+1, p.y+1, 1, 1, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y-1][p.x] == oppose){//BAS
-                er = successeurSud(p.x, p.y-1, oppose);
+            }
+            if (p.y+1 >= 0 && plateau[p.y+1][p.x] == oppose){//BAS
+                er = successeur(p.x, p.y+1, 0, 1, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
-                er = successeurSudOuest(p.x-1, p.y-1, oppose);
+            }
+            if (p.y+1 >= 0 && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
+                er = successeur(p.x-1, p.y+1, -1, 1, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y][p.x-1] == oppose){//Gauche
-                er = successeurOuest(p.x-1, p.y, oppose);
+            }
+            if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose) {//Gauche
+                er = successeur(p.x - 1, p.y, -1, 0, adversaire);
                 if (er != null)
                     succ.add(er);
-            } else if (plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
-                er = successeurNordOuest(p.x-1, p.y+1, oppose);
+            }
+            if (p.y-1 < getTaille() && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
+                er = successeur(p.x-1, p.y-1, -1, -1, adversaire);
                 if (er != null)
                     succ.add(er);
             }
         }
         return succ;
     }
-*/
+
     private EtatReversi algoSuccesseurHumain(Point p, JoueurReversi adversaire) {
         EtatReversi er = null;
         int oppose = joueur.getOppose();//adversaire.getCouleur();
         //Si une case couleur opposé autour de la case vide
-        if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){ //EN HAUT
-            er = successeur(p.x, p.y+1, 0, 1, adversaire);
-        } else if (p.y+1 < getTaille() && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal haut droite
-           er = successeur(p.x+1, p.y+1, 1, 1, adversaire);
-        } else if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
-            er = successeur(p.x+1, p.y, 1, 0, adversaire);
-        } else if (p.y-1 >= 0 && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal bas droite
-            er = successeur(p.x+1, p.y-1, 1, -1, adversaire);
-        } else if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){//BAS
+        if (p.y-1 < getTaille() && plateau[p.y-1][p.x] == oppose){ //EN HAUT
             er = successeur(p.x, p.y-1, 0, -1, adversaire);
-        } else if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal bas gauche
-           er = successeur(p.x-1, p.y-1, -1, -1, adversaire);
-        } else if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose){//Gauche
-            er = successeur(p.x-1, p.y, -1, 0, adversaire);
-        } else if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal haut gauche
-            er = successeur(p.x-1, p.y+1, -1, 1, adversaire);
+        }
+        if (p.y-1 < getTaille() && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
+           er = successeur(p.x+1, p.y-1, 1, -1, adversaire);
+        }
+        if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
+            er = successeur(p.x+1, p.y, 1, 0, adversaire);
+        }
+        if (p.y+1 >= 0 && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
+            er = successeur(p.x+1, p.y+1, 1, 1, adversaire);
+        }
+        if (p.y+1 >= 0 && plateau[p.y+1][p.x] == oppose){//BAS
+            er = successeur(p.x, p.y+1, 0, 1, adversaire);
+        }
+        if (p.y+1 >= 0 && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
+           er = successeur(p.x-1, p.y+1, -1, 1, adversaire);
+        }
+        if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose) {//Gauche
+            er = successeur(p.x - 1, p.y, -1, 0, adversaire);
+        }
+        if (p.y-1 < getTaille() && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
+            er = successeur(p.x-1, p.y-1, -1, -1, adversaire);
         }
         return er;
     }

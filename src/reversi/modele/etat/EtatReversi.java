@@ -16,6 +16,8 @@ public class EtatReversi extends Etat{
     public static int VIDE = 0;
     public static int BLANC = 1;
     public static int NOIR = 2;
+    public int nbJetonsP1;
+    public int nbJetonsP2;
 
     public EtatReversi(JoueurReversi player, int taille){
         super();
@@ -28,15 +30,19 @@ public class EtatReversi extends Etat{
         plateau[taille/2-1][taille/2] = NOIR;
         this.contour = new Contour(8);
         CasePlayable = getPlayable();
+        nbJetonsP1 = 2;
+        nbJetonsP2 = 2;
     }
 
-    public EtatReversi(JoueurReversi player, int[][] plateau, Contour contour){
+    public EtatReversi(JoueurReversi player, int[][] plateau, Contour contour, int nbJetonsP1, int nbJetonsP2){
         super();
         this.CasePlayable = new ArrayList<>();
         this.joueur = player;
         this.plateau = plateau;
         this.contour = contour;
         CasePlayable = getPlayable();
+        this.nbJetonsP1 = nbJetonsP1;
+        this.nbJetonsP2 = nbJetonsP2;
     }
 
     public Iterator<EtatReversi> successeursIA(JoueurReversi adversaire){
@@ -62,10 +68,12 @@ public class EtatReversi extends Etat{
                 new_plateau[i] = Arrays.copyOf(this.plateau[i], getTaille());
             while (x != tmpX-incrX || y != tmpY-incrY){ //Tant qu'on est pas à la 1ère case de couleur opposée (après la case vide)
                 new_plateau[y][x] = joueur.getCouleur(); //Transformation en couleur du joueur
+                nbJetonsP1++;
                 x -= incrX;
                 y -= incrY;
             }
             new_plateau[y][x] = joueur.getCouleur(); //MAJ DE LA CASE VIDE
+            nbJetonsP1++;
             Contour new_contour = new Contour(this.contour);
             new_contour.removePoint(new Point(x, y));
             if (y+1 < getTaille() && x - 1 >= 0 && new_plateau[y+1][x-1] == EtatReversi.VIDE)
@@ -84,7 +92,7 @@ public class EtatReversi extends Etat{
                 new_contour.addPoint(new Point(x, y-1));
             if (y-1 >= 0 && x+1 < getTaille() && new_plateau[y-1][x+1] == EtatReversi.VIDE)
                 new_contour.addPoint(new Point(x+1, y-1));
-            return new EtatReversi(adversaire, new_plateau, new_contour);
+            return new EtatReversi(adversaire, new_plateau, new_contour, nbJetonsP2, nbJetonsP1);
         }
         return null;
     }
@@ -275,5 +283,11 @@ public class EtatReversi extends Etat{
         return CasePlayable.contains(p);
     }
 
+    public int getNbJetonsP1() {
+        return nbJetonsP1;
+    }
 
+    public int getNbJetonsP2() {
+        return nbJetonsP2;
+    }
 }

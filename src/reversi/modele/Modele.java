@@ -41,7 +41,7 @@ public class Modele extends Observable {
         Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));
         while (coups.hasNext()) {
             EtatReversi c = coups.next();
-            int val = algo.min(etat, depth);
+            int val = algo.min(c, depth);
             if (val > max) {
                 max = val;
                 meilleurCoup = c;

@@ -58,11 +58,11 @@ public class EtatReversi extends Etat{
         int tmpX = x;
         int tmpY = y;
         int opppose = adversaire.getCouleur();
-        while (plateau[y][x] == opppose && (y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille())){
+        while ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille()) && plateau[y][x] == opppose){
             y += incrY;
             x += incrX;
         }
-        if (plateau[y][x] == joueur.getCouleur()){
+        if ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille()) && plateau[y][x] == joueur.getCouleur()){
             int[][] new_plateau = new int[getTaille()][];
             for (int i = 0; i < getTaille(); i++)
                 new_plateau[i] = Arrays.copyOf(this.plateau[i], getTaille());
@@ -158,12 +158,12 @@ public class EtatReversi extends Etat{
         for (Point p : contour){
             er = null;
             //Si une case couleur opposé autour de la case vide
-            if (p.y-1 < getTaille() && plateau[p.y-1][p.x] == oppose){ //EN HAUT
+            if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){ //EN HAUT
                 er = successeur(p.x, p.y-1, 0, -1, adversaire);
                 if (er != null)
                     succ.add(er);
             }
-            if (p.y-1 < getTaille() && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
+            if (p.y-1 >= 0 && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
                 er = successeur(p.x+1, p.y-1, 1, -1, adversaire);
                 if (er != null)
                     succ.add(er);
@@ -173,17 +173,17 @@ public class EtatReversi extends Etat{
                 if (er != null)
                     succ.add(er);
             }
-            if (p.y+1 >= 0 && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
+            if (p.y+1 < getTaille() && p.x+1 < getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
                 er = successeur(p.x+1, p.y+1, 1, 1, adversaire);
                 if (er != null)
                     succ.add(er);
             }
-            if (p.y+1 >= 0 && plateau[p.y+1][p.x] == oppose){//BAS
+            if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){//BAS
                 er = successeur(p.x, p.y+1, 0, 1, adversaire);
                 if (er != null)
                     succ.add(er);
             }
-            if (p.y+1 >= 0 && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
+            if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
                 er = successeur(p.x-1, p.y+1, -1, 1, adversaire);
                 if (er != null)
                     succ.add(er);
@@ -193,7 +193,7 @@ public class EtatReversi extends Etat{
                 if (er != null)
                     succ.add(er);
             }
-            if (p.y-1 < getTaille() && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
+            if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
                 er = successeur(p.x-1, p.y-1, -1, -1, adversaire);
                 if (er != null)
                     succ.add(er);

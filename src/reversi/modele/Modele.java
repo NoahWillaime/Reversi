@@ -34,6 +34,17 @@ public class Modele extends Observable {
         }
     }
 
+    public void jouerIAvsP(Point p){
+        if (etat.inPlayable(p)){
+            etat = etat.successeurHumain(p, player2);
+            setChanged();
+            notifyObservers();
+            iaAction(2);
+            setChanged();
+            notifyObservers();
+        }
+    }
+
     public void iaAction(int depth) {
         AlgoMinMax algo = new AlgoMinMax(this);
         EtatReversi meilleurCoup = null;

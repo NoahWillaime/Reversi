@@ -17,7 +17,6 @@ public class EcouteurCase implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        mod.joueurAction(p);
-        System.out.println(p);
+        mod.jouerIAvsP(p);
     }
 }

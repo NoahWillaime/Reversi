@@ -16,7 +16,7 @@ public class AlgoMinMax {
         return e.getNbJetonsP1();
     }
 
-    public int max(EtatReversi e, int depth) {
+    public int max(EtatReversi e, int depth, Integer alpha, Integer beta) {
         if (depth == 0) {
             return eval0(e);
         }
@@ -24,15 +24,21 @@ public class AlgoMinMax {
         Iterator<EtatReversi> coups = e.successeursIA(m.getAdversaire(e));
         while (coups.hasNext()) {
             EtatReversi c = coups.next();
-            int val = min(c, depth - 1);
+            int val = min(c, depth - 1, alpha, beta);
             if (val > max) {
                 max = val;
+                if (max > alpha) {
+                    alpha = max;
+                    if (alpha > beta) { // coupure beta
+                        return max;
+                    }
+                }
             }
         }
         return max;
     }
 
-    public int min(EtatReversi e, int depth) {
+    public int min(EtatReversi e, int depth, Integer alpha, Integer beta) {
         if (depth == 0){
             return eval0(e);
         }
@@ -42,9 +48,15 @@ public class AlgoMinMax {
         EtatReversi etat;
         while (it.hasNext()){
             etat = it.next();
-            val = max(etat, depth-1);
+            val = max(etat, depth-1, alpha, beta);
             if (val < min){
                 min = val;
+                if (min < beta) {
+                    beta = min;
+                    if (alpha > beta) { // coupure alpha
+                        return beta;
+                    }
+                }
             }
         }
         return min;

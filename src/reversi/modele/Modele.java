@@ -39,23 +39,31 @@ public class Modele extends Observable {
             etat = etat.successeurHumain(p, player2);
             setChanged();
             notifyObservers();
-            iaAction(2);
+            long debut = System.currentTimeMillis();
+            iaAction(4);
+            System.out.println(System.currentTimeMillis()-debut);
             setChanged();
             notifyObservers();
         }
     }
 
     public void iaAction(int depth) {
+        boolean leave = true;
+        Integer alpha = Integer.MIN_VALUE;
+        Integer beta = Integer.MAX_VALUE;
         AlgoMinMax algo = new AlgoMinMax(this);
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
         Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));
-        while (coups.hasNext()) {
+        while (coups.hasNext() && leave) {
             EtatReversi c = coups.next();
-            int val = algo.min(c, depth);
+            int val = algo.min(c, depth, alpha, beta);
             if (val > max) {
                 max = val;
                 meilleurCoup = c;
+                if (max > alpha) {
+                    leave = false;
+                }
             }
         }
         etat = meilleurCoup;

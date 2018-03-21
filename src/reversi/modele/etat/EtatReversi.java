@@ -50,7 +50,6 @@ public class EtatReversi extends Etat{
     }
 
     public EtatReversi successeurHumain(Point p, JoueurReversi adversaire) {
-        System.out.println("SH: "+p);
         return algoSuccesseurHumain(p, adversaire);
     }
 

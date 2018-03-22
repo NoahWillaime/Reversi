@@ -39,9 +39,8 @@ public class Modele extends Observable {
             etat = etat.successeurHumain(p, player2);
             setChanged();
             notifyObservers();
-            long debut = System.currentTimeMillis();
             iaAction(4);
-            System.out.println(System.currentTimeMillis()-debut);
+            System.out.println(etat.getCurrent()+" : "+etat.getNbJetonsP1()+"/"+etat.getNbJetonsP2());
             setChanged();
             notifyObservers();
         }
@@ -90,6 +89,10 @@ public class Modele extends Observable {
             return player2;
         }
         return player1;
+    }
+
+    public int getGagnant(){
+        return etat.getGagnant();
     }
 
 }

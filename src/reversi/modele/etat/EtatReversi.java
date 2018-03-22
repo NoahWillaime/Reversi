@@ -57,6 +57,8 @@ public class EtatReversi extends Etat{
         int tmpX = x;
         int tmpY = y;
         int opppose = adversaire.getCouleur();
+        int newJetons1 = nbJetonsP1;
+        int newJetons2 = nbJetonsP2;
         while ((y >= 0 && y < getTaille()) && (x >= 0 && x < getTaille()) && plateau[y][x] == opppose){
             y += incrY;
             x += incrX;
@@ -66,13 +68,16 @@ public class EtatReversi extends Etat{
             for (int i = 0; i < getTaille(); i++)
                 new_plateau[i] = Arrays.copyOf(this.plateau[i], getTaille());
             while (x != tmpX-incrX || y != tmpY-incrY){ //Tant qu'on est pas à la 1ère case de couleur opposée (après la case vide)
-                new_plateau[y][x] = joueur.getCouleur(); //Transformation en couleur du joueur
-                nbJetonsP1++;
+                if (new_plateau[y][x] != joueur.getCouleur()) {
+                    new_plateau[y][x] = joueur.getCouleur(); //Transformation en couleur du joueur
+                    newJetons1++;
+                    newJetons2--;
+                }
                 x -= incrX;
                 y -= incrY;
             }
             new_plateau[y][x] = joueur.getCouleur(); //MAJ DE LA CASE VIDE
-            nbJetonsP1++;
+            newJetons1++;
             Contour new_contour = new Contour(this.contour);
             new_contour.removePoint(new Point(x, y));
             if (y+1 < getTaille() && x - 1 >= 0 && new_plateau[y+1][x-1] == EtatReversi.VIDE)
@@ -91,7 +96,7 @@ public class EtatReversi extends Etat{
                 new_contour.addPoint(new Point(x, y-1));
             if (y-1 >= 0 && x+1 < getTaille() && new_plateau[y-1][x+1] == EtatReversi.VIDE)
                 new_contour.addPoint(new Point(x+1, y-1));
-            return new EtatReversi(adversaire, new_plateau, new_contour, nbJetonsP2, nbJetonsP1);
+            return new EtatReversi(adversaire, new_plateau, new_contour, newJetons2, newJetons1);
         }
         return null;
     }
@@ -304,5 +309,20 @@ public class EtatReversi extends Etat{
 
     public int getNbJetonsP2() {
         return nbJetonsP2;
+    }
+
+    public int getCurrent(){
+        return joueur.getCouleur();
+    }
+
+    public int getGagnant(){
+        if (getPlayable().size() == 0){
+            if (nbJetonsP1 > nbJetonsP2){
+                return joueur.getCouleur();
+            } else {
+                return joueur.getOppose();
+            }
+        }
+        return -1;
     }
 }

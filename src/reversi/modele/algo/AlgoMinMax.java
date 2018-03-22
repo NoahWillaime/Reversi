@@ -17,7 +17,7 @@ public class AlgoMinMax {
     }
 
     public int max(EtatReversi e, int depth, Integer alpha, Integer beta) {
-        if (depth == 0) {
+        if (depth == 0 || e.getGagnant() != -1) {
             return eval0(e);
         }
         int max = Integer.MIN_VALUE;
@@ -39,7 +39,7 @@ public class AlgoMinMax {
     }
 
     public int min(EtatReversi e, int depth, Integer alpha, Integer beta) {
-        if (depth == 0){
+        if (depth == 0 || e.getGagnant() != -1){
             return eval0(e);
         }
         int min = Integer.MAX_VALUE;

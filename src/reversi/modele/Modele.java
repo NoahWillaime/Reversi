@@ -40,7 +40,6 @@ public class Modele extends Observable {
             setChanged();
             notifyObservers();
             iaAction(4);
-            System.out.println(etat.getCurrent()+" : "+etat.getNbJetonsP1()+"/"+etat.getNbJetonsP2());
             setChanged();
             notifyObservers();
         }

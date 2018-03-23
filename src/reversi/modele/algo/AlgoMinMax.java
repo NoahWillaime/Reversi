@@ -3,6 +3,7 @@ package reversi.modele.algo;
 import reversi.modele.Modele;
 import reversi.modele.etat.EtatReversi;
 
+import java.awt.*;
 import java.util.Iterator;
 
 public class AlgoMinMax {
@@ -27,12 +28,18 @@ public class AlgoMinMax {
         return newE.getPlayable().size();
     }
 
+    public int eval0c(EtatReversi e) {
+        Point p = e.getResult();
+        int interest[][] = m.getInterest();
+        return interest[p.y][p.x];
+    }
+
     public int max(EtatReversi e, int depth, Integer alpha, Integer beta) {
         if (depth == 0 || e.getGagnant() != -1) {
             if (utiliastion == 1)
                 return eval0b(e);
             else if (utiliastion == 2)
-                //return eval0c(e);
+                return eval0c(e);
             return eval0(e);
         }
         int max = Integer.MIN_VALUE;
@@ -58,7 +65,7 @@ public class AlgoMinMax {
             if (utiliastion == 1)
                 return eval0b(e);
             else if (utiliastion == 2)
-                //return eval0c(e);
+                return eval0c(e);
             return eval0(e);
         }
         int min = Integer.MAX_VALUE;

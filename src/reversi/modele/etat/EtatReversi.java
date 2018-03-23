@@ -16,8 +16,9 @@ public class EtatReversi extends Etat{
     public static int VIDE = 0;
     public static int BLANC = 1;
     public static int NOIR = 2;
-    public int nbJetonsP1;
-    public int nbJetonsP2;
+    private int nbJetonsP1;
+    private int nbJetonsP2;
+    public Point result;
 
     public EtatReversi(JoueurReversi player, int taille){
         super();
@@ -34,7 +35,7 @@ public class EtatReversi extends Etat{
         nbJetonsP2 = 2;
     }
 
-    public EtatReversi(JoueurReversi player, int[][] plateau, Contour contour, int nbJetonsP1, int nbJetonsP2){
+    public EtatReversi(JoueurReversi player, int[][] plateau, Contour contour, Point res, int nbJetonsP1, int nbJetonsP2){
         super();
         this.CasePlayable = new ArrayList<>();
         this.joueur = player;
@@ -43,6 +44,7 @@ public class EtatReversi extends Etat{
         CasePlayable = getPlayable();
         this.nbJetonsP1 = nbJetonsP1;
         this.nbJetonsP2 = nbJetonsP2;
+        result = res;
     }
 
     public Iterator<EtatReversi> successeursIA(JoueurReversi adversaire){
@@ -77,6 +79,7 @@ public class EtatReversi extends Etat{
                 y -= incrY;
             }
             new_plateau[y][x] = joueur.getCouleur(); //MAJ DE LA CASE VIDE
+            Point p = new Point(x, y);
             newJetons1++;
             Contour new_contour = new Contour(this.contour);
             new_contour.removePoint(new Point(x, y));
@@ -96,7 +99,7 @@ public class EtatReversi extends Etat{
                 new_contour.addPoint(new Point(x, y-1));
             if (y-1 >= 0 && x+1 < getTaille() && new_plateau[y-1][x+1] == EtatReversi.VIDE)
                 new_contour.addPoint(new Point(x+1, y-1));
-            return new EtatReversi(adversaire, new_plateau, new_contour, newJetons2, newJetons1);
+            return new EtatReversi(adversaire, new_plateau, new_contour, p, newJetons2, newJetons1);
         }
         return null;
     }
@@ -324,5 +327,9 @@ public class EtatReversi extends Etat{
             }
         }
         return -1;
+    }
+
+    public Point getResult() {
+        return result;
     }
 }

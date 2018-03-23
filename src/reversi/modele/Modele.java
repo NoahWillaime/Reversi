@@ -53,13 +53,13 @@ public class Modele extends Observable {
         if (!passTurn()) {
             iaAction(2, 0);
         } else {
-            etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
+            etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             end_game++;
         }
         if (!passTurn()) {
             iaAction(2, 0);
         } else {
-            etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
+            etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(),etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             end_game++;
         }
         if (end_game == 2){

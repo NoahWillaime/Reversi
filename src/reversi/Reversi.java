@@ -17,6 +17,7 @@ public class Reversi extends JFrame{
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        m.jouerIAvsIA();
     }
 
     public static void main(String[] args) {

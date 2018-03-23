@@ -45,6 +45,19 @@ public class Modele extends Observable {
         }
     }
 
+    public void jouerIAvsIA() {
+        iaAction(2);
+        iaAction(2);
+        setChanged();
+        notifyObservers();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        jouerIAvsIA();
+    }
+
     public void iaAction(int depth) {
         boolean leave = true;
         Integer alpha = Integer.MIN_VALUE;

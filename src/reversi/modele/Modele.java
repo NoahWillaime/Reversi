@@ -2,6 +2,7 @@ package reversi.modele;
 
 import reversi.modele.algo.AlgoMinMax;
 import reversi.modele.etat.Contour;
+import reversi.modele.etat.Etat;
 import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
 
@@ -14,10 +15,13 @@ public class Modele extends Observable {
     private JoueurReversi player2;
     private EtatReversi etat;
     private int taille_plateau;
+    private int end_game;
+    private String finJeu;
 
     public Modele(int PLATEAU_SIZE) {
         taille_plateau = PLATEAU_SIZE;
-
+        end_game = 0;
+        finJeu = "Personne";
         player1 = new JoueurReversi(EtatReversi.NOIR);
         player2 = new JoueurReversi(EtatReversi.BLANC);
         etat = new EtatReversi(player1, taille_plateau);
@@ -46,16 +50,35 @@ public class Modele extends Observable {
     }
 
     public void jouerIAvsIA() {
-        iaAction(2);
-        iaAction(2);
-        setChanged();
-        notifyObservers();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (!passTurn()) {
+            iaAction(2);
+        } else {
+            etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
+            end_game++;
         }
-        jouerIAvsIA();
+        if (!passTurn()) {
+            iaAction(2);
+        } else {
+            etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
+            end_game++;
+        }
+        if (end_game == 2){
+            if (getGagnant() == EtatReversi.BLANC){
+                finJeu = "Blanc";
+            } else {
+                finJeu = "Noir";
+            }
+        } else {
+            end_game = 0;
+            setChanged();
+            notifyObservers();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            jouerIAvsIA();
+        }
     }
 
     public void iaAction(int depth) {
@@ -107,4 +130,14 @@ public class Modele extends Observable {
         return etat.getGagnant();
     }
 
+    public boolean passTurn(){
+        if (etat.getPlayable().size() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public String getFinJeu() {
+        return finJeu;
+    }
 }

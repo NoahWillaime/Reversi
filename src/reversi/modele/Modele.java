@@ -15,16 +15,29 @@ public class Modele extends Observable {
     private JoueurReversi player2;
     private EtatReversi etat;
     private int taille_plateau;
-    private int end_game;
+    private int endGame;
     private String finJeu;
 
     public Modele(int PLATEAU_SIZE) {
         taille_plateau = PLATEAU_SIZE;
-        end_game = 0;
+        endGame = 0;
         finJeu = "Personne";
         player1 = new JoueurReversi(EtatReversi.NOIR);
         player2 = new JoueurReversi(EtatReversi.BLANC);
         etat = new EtatReversi(player1, taille_plateau);
+    }
+
+    public void reset(){
+        endGame = 0;
+        finJeu = "Personne";
+        player1 = new JoueurReversi(EtatReversi.NOIR);
+        player2 = new JoueurReversi(EtatReversi.BLANC);
+        etat = new EtatReversi(player1, taille_plateau);
+    }
+
+    public void compareIA(){
+        evaluationIA eval = new evaluationIA(this);
+        System.out.println(eval.evalIA(0, 1));
     }
 
     public void joueurAction(Point p){
@@ -51,32 +64,29 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(2, 0);
+            iaAction(2, 1);
+            setChanged();
+            notifyObservers();
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
-            end_game++;
+            endGame++;
         }
         if (!passTurn()) {
             iaAction(2, 0);
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(),etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
-            end_game++;
+            endGame++;
         }
-        if (end_game == 2){
+        if (endGame == 2){
             if (getGagnant() == EtatReversi.BLANC){
                 finJeu = "Blanc";
             } else {
                 finJeu = "Noir";
             }
         } else {
-            end_game = 0;
+            endGame = 0;
             setChanged();
             notifyObservers();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             jouerIAvsIA();
         }
     }
@@ -89,16 +99,20 @@ public class Modele extends Observable {
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
         Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));
+        int val = -1;
         while (coups.hasNext() && leave) {
             EtatReversi c = coups.next();
-            int val = algo.min(c, depth, alpha, beta);
+            val = algo.min(c, depth, alpha, beta);
+            System.out.println(val+"/"+max+": "+(val>max));
             if (val > max) {
                 max = val;
+                System.out.println(max);
                 meilleurCoup = c;
                 if (max > alpha) {
                     leave = false;
                 }
             }
+            System.out.println(max);
         }
         etat = meilleurCoup;
     }
@@ -139,5 +153,25 @@ public class Modele extends Observable {
 
     public String getFinJeu() {
         return finJeu;
+    }
+
+    public EtatReversi getEtat() {
+        return etat;
+    }
+
+    public int getEndGame() {
+        return endGame;
+    }
+
+    public void setEtat(EtatReversi etat) {
+        this.etat = etat;
+    }
+
+    public void setEndGame(int endGame) {
+        this.endGame = endGame;
+    }
+
+    public void setFinJeu(String finJeu) {
+        this.finJeu = finJeu;
     }
 }

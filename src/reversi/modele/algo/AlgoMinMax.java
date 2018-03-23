@@ -31,7 +31,7 @@ public class AlgoMinMax {
         if (depth == 0 || e.getGagnant() != -1) {
             if (utiliastion == 1)
                 return eval0b(e);
-            else if (utiliastion == 2)
+          //  else if (utiliastion == 2)
                 //return eval0c(e);
             return eval0(e);
         }
@@ -57,7 +57,7 @@ public class AlgoMinMax {
         if (depth == 0 || e.getGagnant() != -1){
             if (utiliastion == 1)
                 return eval0b(e);
-            else if (utiliastion == 2)
+           // else if (utiliastion == 2)
                 //return eval0c(e);
             return eval0(e);
         }

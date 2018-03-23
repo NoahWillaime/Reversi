@@ -18,7 +18,7 @@ public class EtatReversi extends Etat{
     public static int NOIR = 2;
     private int nbJetonsP1;
     private int nbJetonsP2;
-    public Point result;
+    private Point result;
 
     public EtatReversi(JoueurReversi player, int taille){
         super();

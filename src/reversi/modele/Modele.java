@@ -17,6 +17,7 @@ public class Modele extends Observable {
     private int taille_plateau;
     private int endGame;
     private String finJeu;
+    private int[][] interest;
 
     public Modele(int PLATEAU_SIZE) {
         taille_plateau = PLATEAU_SIZE;
@@ -25,6 +26,7 @@ public class Modele extends Observable {
         player1 = new JoueurReversi(EtatReversi.NOIR);
         player2 = new JoueurReversi(EtatReversi.BLANC);
         etat = new EtatReversi(player1, taille_plateau);
+        interest = interest();
     }
 
     public void reset(){
@@ -56,7 +58,7 @@ public class Modele extends Observable {
             etat = etat.successeurHumain(p, player2);
             setChanged();
             notifyObservers();
-            iaAction(4, 0);
+            iaAction(6, 0);
             setChanged();
             notifyObservers();
         }
@@ -64,9 +66,7 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(2, 1);
-            setChanged();
-            notifyObservers();
+            iaAction(2, 0);
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             endGame++;
@@ -99,22 +99,46 @@ public class Modele extends Observable {
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
         Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));
-        int val = -1;
         while (coups.hasNext() && leave) {
             EtatReversi c = coups.next();
-            val = algo.min(c, depth, alpha, beta);
-            System.out.println(val+"/"+max+": "+(val>max));
+            int val = algo.min(c, depth, alpha, beta);
             if (val > max) {
                 max = val;
-                System.out.println(max);
                 meilleurCoup = c;
                 if (max > alpha) {
                     leave = false;
                 }
             }
-            System.out.println(max);
         }
         etat = meilleurCoup;
+    }
+
+
+    public int[][] interest() {
+        int taille = getTaillePlateau();
+        int[][] res = new int[taille][taille];
+        for (int i = 0; i < taille; i++) {
+            for (int j = 0; j < taille; j ++) {
+                if ((i == 0 && j == 0) || (i == 0 && j == taille - 1)
+                        || (i == taille - 1 && j == 0) || (i == taille - 1 && j == taille - 1)) {
+                    res[i][j] = 100;
+                } else if ((i == 0 && j == 1) || (i == 1 && j == 0) || (i == 1 && j == 1) ||
+                        (i == 0 && j == taille - 2) || (i == 1 && j == taille - 2) || (i == 1 && j == taille - 1) ||
+                        (i == taille - 2 && j == 0) || (i == taille - 2 && j == 1) || (i == taille - 1 && j == 1) ||
+                        (i == taille - 2 && j == taille - 2) || (i == taille - 2 && j == taille - 1) || (i == taille - 1 && j == taille - 2)) {
+                    res[i][j] = 0;
+                } else {
+                    if (i == 0 || j == 0 || i == taille - 1 || j == taille - 1) {
+                        res[i][j] = 99;
+                    } else if (i == 1 || j == 1 || i == taille - 2 || j == taille - 2) {
+                        res[i][j] = 98;
+                    } else {
+                        res[i][j] = 97;
+                    }
+                }
+            }
+        }
+        return res;
     }
 
     public int[][] getPlateau(){
@@ -173,5 +197,9 @@ public class Modele extends Observable {
 
     public void setFinJeu(String finJeu) {
         this.finJeu = finJeu;
+    }
+
+    public int[][] getInterest() {
+        return interest;
     }
 }

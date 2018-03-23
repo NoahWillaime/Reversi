@@ -43,7 +43,7 @@ public class Modele extends Observable {
             etat = etat.successeurHumain(p, player2);
             setChanged();
             notifyObservers();
-            iaAction(4);
+            iaAction(4, 0);
             setChanged();
             notifyObservers();
         }
@@ -51,13 +51,13 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(2);
+            iaAction(2, 0);
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             end_game++;
         }
         if (!passTurn()) {
-            iaAction(2);
+            iaAction(2, 0);
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             end_game++;
@@ -81,11 +81,11 @@ public class Modele extends Observable {
         }
     }
 
-    public void iaAction(int depth) {
+    public void iaAction(int depth, int eval) {
         boolean leave = true;
         Integer alpha = Integer.MIN_VALUE;
         Integer beta = Integer.MAX_VALUE;
-        AlgoMinMax algo = new AlgoMinMax(this);
+        AlgoMinMax algo = new AlgoMinMax(this, etat.getCurrent(), eval);
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
         Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));

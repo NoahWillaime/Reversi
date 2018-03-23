@@ -7,17 +7,32 @@ import java.util.Iterator;
 
 public class AlgoMinMax {
     private Modele m;
+    private int couleur;
+    private int utiliastion;
 
-    public AlgoMinMax(Modele m) {
+    public AlgoMinMax(Modele m, int couleurJ, int eval) {
         this.m = m;
+        couleur = couleurJ;
+        utiliastion = eval;
     }
 
     public int eval0(EtatReversi e) {
         return e.getNbJetonsP1();
     }
 
+    public int eval0b(EtatReversi e){
+        if (e.getCurrent() != couleur)
+            return e.getPlayable().size();
+        EtatReversi newE = new EtatReversi(m.getAdversaire(e), e.getPlateau(), e.getContour(), e.getNbJetonsP2(), e.getNbJetonsP1());
+        return newE.getPlayable().size();
+    }
+
     public int max(EtatReversi e, int depth, Integer alpha, Integer beta) {
         if (depth == 0 || e.getGagnant() != -1) {
+            if (utiliastion == 1)
+                return eval0b(e);
+            else if (utiliastion == 2)
+                //return eval0c(e);
             return eval0(e);
         }
         int max = Integer.MIN_VALUE;
@@ -40,6 +55,10 @@ public class AlgoMinMax {
 
     public int min(EtatReversi e, int depth, Integer alpha, Integer beta) {
         if (depth == 0 || e.getGagnant() != -1){
+            if (utiliastion == 1)
+                return eval0b(e);
+            else if (utiliastion == 2)
+                //return eval0c(e);
             return eval0(e);
         }
         int min = Integer.MAX_VALUE;

@@ -3,6 +3,8 @@ package reversi.modele.algo;
 import reversi.modele.Modele;
 import reversi.modele.etat.EtatReversi;
 
+import javax.jws.WebParam;
+import java.awt.*;
 import java.util.Iterator;
 
 public class AlgoMinMax {
@@ -48,9 +50,9 @@ public class AlgoMinMax {
             int val = min(c, depth - 1, alpha, beta);
             if (val > max) {
                 max = val;
-                if (max > alpha) {
-                    alpha = max;
-                    if (alpha > beta) { // coupure beta
+                if (max > Modele.alpha) {
+                    Modele.alpha = max;
+                    if (Modele.alpha > Modele.beta) { // coupure beta
                         return max;
                     }
                 }
@@ -76,10 +78,10 @@ public class AlgoMinMax {
             val = max(etat, depth-1, alpha, beta);
             if (val < min){
                 min = val;
-                if (min < beta) {
-                    beta = min;
-                    if (alpha > beta) { // coupure alpha
-                        return beta;
+                if (min < Modele.beta) {
+                    Modele.beta = min;
+                    if (Modele.alpha > Modele.beta) { // coupure alpha
+                        return Modele.beta;
                     }
                 }
             }

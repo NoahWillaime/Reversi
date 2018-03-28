@@ -18,6 +18,8 @@ public class Modele extends Observable {
     private int endGame;
     private String finJeu;
     private int[][] interest;
+    public static Integer alpha;
+    public static Integer beta;
 
     public Modele(int PLATEAU_SIZE) {
         taille_plateau = PLATEAU_SIZE;
@@ -39,7 +41,7 @@ public class Modele extends Observable {
 
     public void compareIA(){
         evaluationIA eval = new evaluationIA(this);
-        System.out.println(eval.evalIA(0, 1));
+        System.out.println(eval.evalIA(0, 2));
     }
 
     public void joueurAction(Point p){
@@ -66,13 +68,13 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(2, 0);
+            iaAction(2, 1);
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             endGame++;
         }
         if (!passTurn()) {
-            iaAction(2, 0);
+            iaAction(2, 2);
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(),etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             endGame++;
@@ -93,8 +95,8 @@ public class Modele extends Observable {
 
     public void iaAction(int depth, int eval) {
         boolean leave = true;
-        Integer alpha = Integer.MIN_VALUE;
-        Integer beta = Integer.MAX_VALUE;
+        alpha = Integer.MIN_VALUE;
+        beta = Integer.MAX_VALUE;
         AlgoMinMax algo = new AlgoMinMax(this, etat.getCurrent(), eval);
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;

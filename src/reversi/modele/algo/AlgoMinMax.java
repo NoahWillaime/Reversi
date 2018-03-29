@@ -23,7 +23,7 @@ public class AlgoMinMax {
     }
 
     public int eval0b(EtatReversi e){
-        if (e.getCurrent() != couleur)
+        if (e.getCurrent() == couleur)
             return e.getPlayable().size();
         EtatReversi newE = new EtatReversi(m.getAdversaire(e), e.getPlateau(), e.getContour(), null, e.getNbJetonsP2(), e.getNbJetonsP1());
         return newE.getPlayable().size();

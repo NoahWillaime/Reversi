@@ -124,35 +124,43 @@ public class EtatReversi extends Etat{
             //Si une case couleur opposé autour de la case vide
             if (p.y-1 >= 0 && plateau[p.y-1][p.x] == oppose){ //EN HAUT
                 if (isPlayable(p.x, p.y-1, 0, -1))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.y-1 >= 0 && p.x+1 < getTaille() && plateau[p.y-1][p.x+1] == oppose){//Diagonal haut droite
                 if (isPlayable(p.x+1, p.y-1, 1, -1))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.x+1 < getTaille() && plateau[p.y][p.x+1] == oppose){//Droite
                 if (isPlayable(p.x+1, p.y, 1, 0))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.y+1 < getTaille() && p.x+1 <getTaille() && plateau[p.y+1][p.x+1] == oppose){//Diagonal bas droite
                 if (isPlayable(p.x+1, p.y+1, 1, 1))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.y+1 < getTaille() && plateau[p.y+1][p.x] == oppose){//BAS
                 if (isPlayable(p.x, p.y+1, 0, 1))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.y+1 < getTaille() && p.x-1 >= 0 && plateau[p.y+1][p.x-1] == oppose){//Diagonal bas gauche
                 if (isPlayable(p.x-1, p.y+1, -1, 1))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.x-1 >= 0 && plateau[p.y][p.x-1] == oppose){//Gauche
                 if (isPlayable(p.x-1, p.y, -1, 0))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
             if (p.y-1 >= 0 && p.x-1 >= 0 && plateau[p.y-1][p.x-1] == oppose){//Diagonal haut gauche
                 if (isPlayable(p.x-1, p.y-1, -1, -1))
-                    playable.add(p);
+                    if (!playable.contains(p))
+                        playable.add(p);
             }
         }
         return playable;

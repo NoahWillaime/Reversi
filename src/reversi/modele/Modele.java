@@ -117,8 +117,7 @@ public class Modele extends Observable {
         }
         etat = meilleurCoup;
     }
-
-
+    
     public int[][] interest() {
         int taille = getTaillePlateau();
         int[][] res = new int[taille][taille];
@@ -133,6 +132,22 @@ public class Modele extends Observable {
                 }
             }
         }
+        res[0][0] = 100;
+        res[0][taille - 1] = 100;
+        res[taille - 1][0] = 100;
+        res[taille -1][taille - 1] = 100;
+        res[0][1] = 0;
+        res[1][0] = 0;
+        res[1][1] = 0;
+        res[0][taille - 2] = 0;
+        res[1][taille - 2] = 0;
+        res[1][taille - 1] = 0;
+        res[taille - 2][0] = 0;
+        res[taille - 2][1] = 0;
+        res[taille - 1][1] = 0;
+        res[taille - 2][taille - 2] = 0;
+        res[taille - 2][taille - 1] = 0;
+        res[taille - 1][taille - 2] = 0;
         return res;
     }
 

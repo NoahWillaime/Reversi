@@ -3,7 +3,6 @@ package reversi.modele.algo;
 import reversi.modele.Modele;
 import reversi.modele.etat.EtatReversi;
 
-import javax.jws.WebParam;
 import java.awt.*;
 import java.util.Iterator;
 

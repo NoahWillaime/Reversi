@@ -2,7 +2,6 @@ package reversi.modele;
 
 import reversi.modele.algo.AlgoMinMax;
 import reversi.modele.etat.Contour;
-import reversi.modele.etat.Etat;
 import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
 
@@ -123,24 +122,14 @@ public class Modele extends Observable {
     public int[][] interest() {
         int taille = getTaillePlateau();
         int[][] res = new int[taille][taille];
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j ++) {
-                if ((i == 0 && j == 0) || (i == 0 && j == taille - 1)
-                        || (i == taille - 1 && j == 0) || (i == taille - 1 && j == taille - 1)) {
-                    res[i][j] = 100;
-                } else if ((i == 0 && j == 1) || (i == 1 && j == 0) || (i == 1 && j == 1) ||
-                        (i == 0 && j == taille - 2) || (i == 1 && j == taille - 2) || (i == 1 && j == taille - 1) ||
-                        (i == taille - 2 && j == 0) || (i == taille - 2 && j == 1) || (i == taille - 1 && j == 1) ||
-                        (i == taille - 2 && j == taille - 2) || (i == taille - 2 && j == taille - 1) || (i == taille - 1 && j == taille - 2)) {
-                    res[i][j] = 0;
-                } else {
-                    if (i == 0 || j == 0 || i == taille - 1 || j == taille - 1) {
-                        res[i][j] = 99;
-                    } else if (i == 1 || j == 1 || i == taille - 2 || j == taille - 2) {
-                        res[i][j] = 98;
-                    } else {
-                        res[i][j] = 97;
-                    }
+        int count = 0;
+        for (int k = 0; k+1 < taille - count; k++) {
+            for (int i = k; i < taille - count; i++) {
+                if (count < taille - count) {
+                    res[i][count] = 99 - count;
+                    res[i][taille - count - 1] = 99 - count;
+                    res[count][i] = 99 - count;
+                    res[taille - count - 1][i] = 99 - count;
                 }
             }
         }

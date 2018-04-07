@@ -20,6 +20,7 @@ public class Modele extends Observable {
     private int[][] interest;
     public static Integer alpha;
     public static Integer beta;
+    public int mode; //0 : PVP, 1 : PVE, 2 : EVE
 
     public Modele(int PLATEAU_SIZE) {
         taille_plateau = PLATEAU_SIZE;
@@ -29,6 +30,7 @@ public class Modele extends Observable {
         player2 = new JoueurReversi(EtatReversi.BLANC);
         etat = new EtatReversi(player1, taille_plateau);
         interest = interest();
+        mode = 0;
     }
 
     public void reset(){
@@ -37,6 +39,8 @@ public class Modele extends Observable {
         player1 = new JoueurReversi(EtatReversi.NOIR);
         player2 = new JoueurReversi(EtatReversi.BLANC);
         etat = new EtatReversi(player1, taille_plateau);
+        setChanged();
+        notifyObservers();
     }
 
     public void compareIA(){
@@ -203,5 +207,38 @@ public class Modele extends Observable {
 
     public int[][] getInterest() {
         return interest;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+        setChanged();
+        notifyObservers();
+    }
+
+    public int getJetonsNoir(){
+        if (etat.getCurrent() == etat.BLANC)
+            return etat.getNbJetonsP2();
+        else
+            return etat.getNbJetonsP1();
+    }
+
+    public int getJetonsBlanc(){
+        if (etat.getCurrent() == etat.BLANC)
+            return etat.getNbJetonsP1();
+        else
+            return etat.getNbJetonsP2();
+    }
+
+
+    public String getPlayer(){
+        if (etat.getCurrent() == etat.BLANC){
+            return "Au tour du Joueur BLANC";
+        } else {
+            return "Au tour du Joueur NOIR";
+        }
     }
 }

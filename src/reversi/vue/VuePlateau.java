@@ -46,11 +46,6 @@ public class VuePlateau extends JPanel implements Observer {
                         : Color.GRAY);
             }
         }
-        Iterator<Point> i1 = m.getContour().iterator();
-        while (i1.hasNext()) {
-            Point p = i1.next();
-            cases.get(m.getTaillePlateau() * p.y + p.x).setBackground(Color.RED);
-        }
         Iterator<Point> i = m.getPlayable();
         while (i.hasNext()) {
             Point p = i.next();
@@ -73,12 +68,6 @@ public class VuePlateau extends JPanel implements Observer {
                         : Color.GRAY);
             }
         }
-        /*
-        Iterator<Point> i1 = m.getContour().iterator();
-        while (i1.hasNext()) {
-            Point p = i1.next();
-            cases.get(m.getTaillePlateau() * p.y + p.x).setBackground(Color.RED);
-        }*/
         Iterator<Point> i = m.getPlayable();
         while (i.hasNext()) {
             Point p = i.next();

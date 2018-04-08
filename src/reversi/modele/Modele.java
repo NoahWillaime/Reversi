@@ -74,13 +74,17 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(2, 1);
+            iaAction(0, 1);
+            setChanged();
+            notifyObservers();
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(), etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             endGame++;
         }
         if (!passTurn()) {
-            iaAction(2, 2);
+            iaAction(0, 2);
+            setChanged();
+            notifyObservers();
         } else {
             etat = new EtatReversi(getAdversaire(etat), etat.getPlateau(), etat.getContour(),etat.getResult(), etat.getNbJetonsP2(), etat.getNbJetonsP1());
             endGame++;
@@ -93,8 +97,6 @@ public class Modele extends Observable {
             }
         } else {
             endGame = 0;
-            setChanged();
-            notifyObservers();
             jouerIAvsIA();
         }
     }
@@ -225,6 +227,8 @@ public class Modele extends Observable {
         this.mode = mode;
         setChanged();
         notifyObservers();
+        if (mode == 2)
+            jouerIAvsIA();
     }
 
     public int getJetonsNoir(){

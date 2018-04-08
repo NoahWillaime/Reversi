@@ -6,6 +6,7 @@ import reversi.modele.etat.EtatReversi;
 import reversi.modele.joueur.JoueurReversi;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Observable;
 
@@ -59,6 +60,8 @@ public class Modele extends Observable {
     }
 
     public void jouerIAvsP(Point p){
+        for (int[] a : interest)
+        System.out.println(Arrays.toString(a));
         if (etat.inPlayable(p)){
             etat = etat.successeurHumain(p, player2);
             setChanged();
@@ -131,6 +134,7 @@ public class Modele extends Observable {
                     res[taille - count - 1][i] = 99 - count;
                 }
             }
+            count++;
         }
         res[0][0] = 100;
         res[0][taille - 1] = 100;

@@ -11,11 +11,17 @@ public class evaluationIA
     }
 
     public int evalIA(int ia1, int ia2){
+        int somme1 = 0;
+        int somme2 = 0;
         int jeu1 = evalJeu(ia1, ia2);
+        somme1 += m.getJetonsNoir();
+        somme2 += m.getJetonsBlanc();
         m.reset();
-        System.out.println(jeu1);
         int jeu2 = evalJeu(ia2, ia1);
-        System.out.println(jeu2);
+        somme1 += m.getJetonsBlanc();
+        somme2 += m.getJetonsNoir();
+        m.setSomme1(somme1);
+        m.setSomme2(somme2);
         if (jeu1 == ia1 && jeu2 == ia1)
             return 1;
         else if (jeu1 == ia2 && jeu2 == ia2)

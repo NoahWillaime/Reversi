@@ -18,6 +18,8 @@ public class Modele extends Observable {
     private int taille_plateau;
     private int endGame;
     private String finJeu;
+    private int somme1;
+    private int somme2;
     private int[][] interest;
     private int[][] newInterest;
     public static Integer alpha;
@@ -48,7 +50,7 @@ public class Modele extends Observable {
 
     public void compareIA(){
         evaluationIA eval = new evaluationIA(this);
-        System.out.println(eval.evalIA(0, 2));
+        eval.evalIA(2, 3);
     }
 
     public void joueurAction(Point p){
@@ -158,22 +160,27 @@ public class Modele extends Observable {
         int taille = getTaillePlateau();
         Random random = new Random();
         newInterest[random.nextInt(taille - 1)][random.nextInt(taille - 1)] = random.nextInt(100);
-        interest[0][0] = 100;
-        interest[0][taille - 1] = 100;
-        interest[taille - 1][0] = 100;
-        interest[taille -1][taille - 1] = 100;
-        interest[0][1] = 0;
-        interest[1][0] = 0;
-        interest[1][1] = 0;
-        interest[0][taille - 2] = 0;
-        interest[1][taille - 2] = 0;
-        interest[1][taille - 1] = 0;
-        interest[taille - 2][0] = 0;
-        interest[taille - 2][1] = 0;
-        interest[taille - 1][1] = 0;
-        interest[taille - 2][taille - 2] = 0;
-        interest[taille - 2][taille - 1] = 0;
-        interest[taille - 1][taille - 2] = 0;
+        newInterest[0][0] = 100;
+        newInterest[0][taille - 1] = 100;
+        newInterest[taille - 1][0] = 100;
+        newInterest[taille -1][taille - 1] = 100;
+        newInterest[0][1] = 0;
+        newInterest[1][0] = 0;
+        newInterest[1][1] = 0;
+        newInterest[0][taille - 2] = 0;
+        newInterest[1][taille - 2] = 0;
+        newInterest[1][taille - 1] = 0;
+        newInterest[taille - 2][0] = 0;
+        newInterest[taille - 2][1] = 0;
+        newInterest[taille - 1][1] = 0;
+        newInterest[taille - 2][taille - 2] = 0;
+        newInterest[taille - 2][taille - 1] = 0;
+        newInterest[taille - 1][taille - 2] = 0;
+        compareIA();
+        if (somme1 < somme2) {
+            interest = interest.clone();
+        }
+        newInterest = interest.clone();
     }
 
     public int[][] getNewInterest() {
@@ -253,6 +260,7 @@ public class Modele extends Observable {
         notifyObservers();
         if (mode == 2) {
             changeInterest();
+            reset();
             jouerIAvsIA();
         }
     }
@@ -278,5 +286,13 @@ public class Modele extends Observable {
         } else {
             return "Au tour du Joueur NOIR";
         }
+    }
+
+    public void setSomme1(int somme1) {
+        this.somme1 = somme1;
+    }
+
+    public void setSomme2(int somme2) {
+        this.somme2 = somme2;
     }
 }

@@ -60,13 +60,11 @@ public class Modele extends Observable {
     }
 
     public void jouerIAvsP(Point p){
-        for (int[] a : interest)
-        System.out.println(Arrays.toString(a));
         if (etat.inPlayable(p)){
             etat = etat.successeurHumain(p, player2);
             setChanged();
             notifyObservers();
-            iaAction(6, 0);
+            iaAction(0, 2);
             setChanged();
             notifyObservers();
         }
@@ -74,7 +72,7 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(2, 0);
+            iaAction(0, 2);
             setChanged();
             notifyObservers();
         } else {
@@ -82,7 +80,7 @@ public class Modele extends Observable {
             endGame++;
         }
         if (!passTurn()) {
-            iaAction(0, 2);
+            iaAction(2, 1);
             setChanged();
             notifyObservers();
         } else {
@@ -102,22 +100,18 @@ public class Modele extends Observable {
     }
 
     public void iaAction(int depth, int eval) {
-        boolean leave = true;
         alpha = Integer.MIN_VALUE;
         beta = Integer.MAX_VALUE;
         AlgoMinMax algo = new AlgoMinMax(this, etat.getCurrent(), eval);
         EtatReversi meilleurCoup = null;
         int max = Integer.MIN_VALUE;
         Iterator<EtatReversi> coups = etat.successeursIA(getAdversaire(etat));
-        while (coups.hasNext() && leave) {
+        while (coups.hasNext()) {
             EtatReversi c = coups.next();
             int val = algo.min(c, depth, alpha, beta);
             if (val > max) {
                 max = val;
                 meilleurCoup = c;
-                if (max > alpha) {
-                    leave = false;
-                }
             }
         }
         etat = meilleurCoup;

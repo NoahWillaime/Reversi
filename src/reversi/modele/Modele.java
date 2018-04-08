@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.Random;
 
 public class Modele extends Observable {
     private JoueurReversi player1;
@@ -31,6 +32,7 @@ public class Modele extends Observable {
         player2 = new JoueurReversi(EtatReversi.BLANC);
         etat = new EtatReversi(player1, taille_plateau);
         interest = interest();
+        newInterest = interest.clone();
         mode = 0;
     }
 
@@ -152,6 +154,28 @@ public class Modele extends Observable {
         return res;
     }
 
+    public void changeInterest() {
+        int taille = getTaillePlateau();
+        Random random = new Random();
+        newInterest[random.nextInt(taille - 1)][random.nextInt(taille - 1)] = random.nextInt(100);
+        interest[0][0] = 100;
+        interest[0][taille - 1] = 100;
+        interest[taille - 1][0] = 100;
+        interest[taille -1][taille - 1] = 100;
+        interest[0][1] = 0;
+        interest[1][0] = 0;
+        interest[1][1] = 0;
+        interest[0][taille - 2] = 0;
+        interest[1][taille - 2] = 0;
+        interest[1][taille - 1] = 0;
+        interest[taille - 2][0] = 0;
+        interest[taille - 2][1] = 0;
+        interest[taille - 1][1] = 0;
+        interest[taille - 2][taille - 2] = 0;
+        interest[taille - 2][taille - 1] = 0;
+        interest[taille - 1][taille - 2] = 0;
+    }
+
     public int[][] getNewInterest() {
         return newInterest;
     }
@@ -227,8 +251,10 @@ public class Modele extends Observable {
         reset();
         setChanged();
         notifyObservers();
-        if (mode == 2)
+        if (mode == 2) {
+            changeInterest();
             jouerIAvsIA();
+        }
     }
 
     public int getJetonsNoir(){

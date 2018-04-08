@@ -18,6 +18,7 @@ public class Modele extends Observable {
     private int endGame;
     private String finJeu;
     private int[][] interest;
+    private int[][] newInterest;
     public static Integer alpha;
     public static Integer beta;
     public int mode; //0 : PVP, 1 : PVE, 2 : EVE
@@ -149,6 +150,10 @@ public class Modele extends Observable {
         res[taille - 2][taille - 1] = 0;
         res[taille - 1][taille - 2] = 0;
         return res;
+    }
+
+    public int[][] getNewInterest() {
+        return newInterest;
     }
 
     public int[][] getPlateau(){

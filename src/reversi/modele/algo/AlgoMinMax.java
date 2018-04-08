@@ -34,12 +34,20 @@ public class AlgoMinMax {
         return interest[p.y][p.x];
     }
 
+    public int eval0d(EtatReversi e) {
+        Point p = e.getResult();
+        int interest[][] = m.getNewInterest();
+        return interest[p.y][p.x];
+    }
+
     public int max(EtatReversi e, int depth, Integer alpha, Integer beta) {
         if (depth == 0 || e.getGagnant() != -1) {
             if (utiliastion == 1)
                 return eval0b(e);
             else if (utiliastion == 2)
                 return eval0c(e);
+            else if (utiliastion == 3)
+                return eval0d(e);
             return eval0(e);
         }
         int max = Integer.MIN_VALUE;
@@ -66,6 +74,8 @@ public class AlgoMinMax {
                 return eval0b(e);
             else if (utiliastion == 2)
                 return eval0c(e);
+            else if (utiliastion == 3)
+                return eval0d(e);
             return eval0(e);
         }
         int min = Integer.MAX_VALUE;

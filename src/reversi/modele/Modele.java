@@ -74,7 +74,7 @@ public class Modele extends Observable {
 
     public void jouerIAvsIA() {
         if (!passTurn()) {
-            iaAction(0, 1);
+            iaAction(2, 0);
             setChanged();
             notifyObservers();
         } else {
@@ -225,6 +225,7 @@ public class Modele extends Observable {
 
     public void setMode(int mode) {
         this.mode = mode;
+        reset();
         setChanged();
         notifyObservers();
         if (mode == 2)
